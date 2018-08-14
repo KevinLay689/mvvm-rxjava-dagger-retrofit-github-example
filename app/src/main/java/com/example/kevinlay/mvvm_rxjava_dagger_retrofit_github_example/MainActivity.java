@@ -1,11 +1,14 @@
 package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.DaggerAppComponent;
-import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.retrofit.GithubApi;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.RetrofitModule;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModel;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModelFactory;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.retrofit.GithubRepo;
 
 import javax.inject.Inject;
@@ -13,25 +16,36 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    @Inject Retrofit retrofit;
+    private MainActivityViewModel viewModel;
 
-    CompositeDisposable disposable = new CompositeDisposable();
+    private final CompositeDisposable disposable = new CompositeDisposable();
+
+    @Inject MainActivityViewModelFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DaggerAppComponent.builder().build().inject(this);
 
+        DaggerAppComponent.builder()
+                .retrofitModule(new RetrofitModule(this))
+                .build()
+                .inject(this);
+
+        viewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         disposable.add(
-                retrofit.create(GithubApi.class)
-                        .getRepos("kevinlay689")
+                viewModel.getGithubRepos("kevinlay689")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(repos -> {
@@ -39,5 +53,10 @@ public class MainActivity extends AppCompatActivity {
                                 Log.i(TAG, repo.getName());
                             }
                         }));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

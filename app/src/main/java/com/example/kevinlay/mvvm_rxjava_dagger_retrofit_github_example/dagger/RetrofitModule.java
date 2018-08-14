@@ -1,10 +1,12 @@
 package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger;
 
+import android.content.Context;
+
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModelFactory;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -14,6 +16,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class RetrofitModule {
+
+    Context context;
+
+    public RetrofitModule(Context context) {
+        this.context = context;
+    }
+
+    // TODO: Should probably move out to its own module
+    @Provides
+    @RetrofitScope
+    public MainActivityViewModelFactory provideMainActivityViewModelFactory(Retrofit retrofit) {
+        return new MainActivityViewModelFactory(retrofit);
+    }
 
     @Provides
     @RetrofitScope
