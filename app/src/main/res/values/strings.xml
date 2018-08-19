@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">mvvm-rxjava-dagger-retrofit-github-example</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="github_username_hint">Enter github username</string>
+    <string name="search_button">Search</string>
 </resources>

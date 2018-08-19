@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.AppDatabase;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.RepoDao;
 
 import javax.inject.Singleton;
 
@@ -24,7 +25,13 @@ public class DatabaseModule {
 
     @Provides
     @Singleton
-    AppDatabase provideAppDatabase2() {
+    public AppDatabase provideAppDatabase2() {
         return appDatabase;
+    }
+
+    @Provides
+    @Singleton
+    public RepoDao provideRepoDao() {
+        return appDatabase.repoDao();
     }
 }

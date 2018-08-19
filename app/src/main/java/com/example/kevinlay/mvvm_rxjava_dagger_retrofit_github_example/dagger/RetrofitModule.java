@@ -2,7 +2,8 @@ package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger;
 
 import android.content.Context;
 
-import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModelFactory;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.RepoDao;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.GithubFragmentViewModelFactory;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;
@@ -28,8 +29,8 @@ public class RetrofitModule {
     // TODO: Should probably move out to its own module
     @Provides
     @Singleton
-    public MainActivityViewModelFactory provideMainActivityViewModelFactory(Retrofit retrofit) {
-        return new MainActivityViewModelFactory(retrofit);
+    public GithubFragmentViewModelFactory provideGithubFragmentViewModelFactory(Retrofit retrofit, RepoDao repoDao) {
+        return new GithubFragmentViewModelFactory(retrofit, repoDao);
     }
 
     @Provides
