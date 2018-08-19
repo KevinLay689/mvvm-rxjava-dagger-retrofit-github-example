@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.AppComponent;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.DaggerAppComponent;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.RetrofitModule;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.RetrofitSubcomponent;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModel;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModelFactory;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.retrofit.GithubRepo;
@@ -33,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         DaggerAppComponent.builder()
-                .retrofitModule(new RetrofitModule(this))
+                .build()
+                .retrofitComponent()
+                .requestRetrofitModule(new RetrofitModule(this))
                 .build()
                 .inject(this);
 
