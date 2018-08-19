@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.MainActivityViewModelFactory;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -25,13 +27,13 @@ public class RetrofitModule {
 
     // TODO: Should probably move out to its own module
     @Provides
-    @RetrofitScope
+    @Singleton
     public MainActivityViewModelFactory provideMainActivityViewModelFactory(Retrofit retrofit) {
         return new MainActivityViewModelFactory(retrofit);
     }
 
     @Provides
-    @RetrofitScope
+    @Singleton
     public Retrofit provideRetrofit(GsonConverterFactory gsonConverterFactory, RxJava2CallAdapterFactory rxJava2CallAdapterFactory) {
         return new Retrofit.Builder()
                 .addConverterFactory(gsonConverterFactory)
@@ -41,13 +43,13 @@ public class RetrofitModule {
     }
 
     @Provides
-    @RetrofitScope
+    @Singleton
     public GsonConverterFactory provideGsonConverterFactory() {
         return GsonConverterFactory.create();
     }
 
     @Provides
-    @RetrofitScope
+    @Singleton
     public RxJava2CallAdapterFactory provideRxJAva2CallAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }
