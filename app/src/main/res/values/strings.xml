@@ -3,5 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="github_username_hint">Enter github username</string>
-    <string name="search_button">Search</string>
+    <string name="search_button">Search and save to database</string>
+    <string name="search_db_button">Get repos from database</string>
+
 </resources>

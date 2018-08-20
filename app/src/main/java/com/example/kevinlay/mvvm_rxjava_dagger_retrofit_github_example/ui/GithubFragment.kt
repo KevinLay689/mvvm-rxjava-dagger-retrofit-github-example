@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.R
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.Repo
@@ -22,8 +24,12 @@ import java.util.*
 
 class GithubFragment: Fragment() {
 
-    private lateinit var searchButton: Button
+    private lateinit var searchAndAdd: Button
+    private lateinit var searchDbForUser: Button
     private lateinit var githubUsernameField: EditText
+    private lateinit var results: ListView
+
+    private lateinit var adapter: ArrayAdapter<String>
 
     private lateinit var viewModel: GithubFragmentViewModel
 
@@ -34,12 +40,27 @@ class GithubFragment: Fragment() {
 
         val view: View = inflater.inflate(R.layout.fragment_github, container, false)
 
-        searchButton = view.findViewById(R.id.searchButton)
+        searchAndAdd = view.findViewById(R.id.searchAndAddButton)
+        searchDbForUser = view.findViewById(R.id.searchLocalDatabaseButton)
         githubUsernameField = view.findViewById(R.id.githubUsername)
+        results = view.findViewById(R.id.results)
 
-        searchButton.setOnClickListener({ _ -> searchButtonClicked() })
+        searchAndAdd.setOnClickListener({ _ -> searchButtonClicked() })
+        searchDbForUser.setOnClickListener({ _ -> searchDbButtonClicked(githubUsernameField.text.toString()) })
 
         return view
+    }
+
+    private fun searchDbButtonClicked(username: String) {
+        val tempDisposable: Disposable = viewModel.getReposFromDatabase(username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { repos ->
+                    adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, repos)
+                    results.adapter = adapter
+                }
+
+        disposable.add(tempDisposable)
     }
 
     override fun onDestroyView() {

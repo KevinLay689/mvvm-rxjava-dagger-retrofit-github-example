@@ -12,9 +12,21 @@
         android:hint="@string/github_username_hint"/>
 
     <Button
-        android:id="@+id/searchButton"
+        android:id="@+id/searchAndAddButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/search_button"/>
+
+    <Button
+        android:id="@+id/searchLocalDatabaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_db_button"/>
+
+    <ListView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 
 </LinearLayout>
