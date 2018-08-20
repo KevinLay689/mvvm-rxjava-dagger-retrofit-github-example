@@ -14,7 +14,7 @@ interface RepoDao {
     @Query("SELECT * FROM repos")
     fun getAllRepos(): Flowable<List<Repo>>
 
-    @Query("SELECT repo_name FROM repos WHERE :owner")
+    @Query("SELECT repo_name FROM repos WHERE owner_name = :owner")
     fun getReposByOwner(owner: String): Flowable<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

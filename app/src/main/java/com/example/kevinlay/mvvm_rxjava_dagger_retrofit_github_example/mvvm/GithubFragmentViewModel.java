@@ -10,6 +10,7 @@ import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.retrofit.
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -37,5 +38,13 @@ public class GithubFragmentViewModel extends ViewModel {
         return Completable.fromAction(() -> repoDao
                 .insertRepos(repos))
                 .subscribeOn(Schedulers.io());
+    }
+
+    public Flowable<List<String>> getReposFromDatabase(String owner) {
+        return repoDao.getReposByOwner(owner);
+    }
+
+    public Flowable<List<Repo>> getAllRepos() {
+        return repoDao.getAllRepos();
     }
 }

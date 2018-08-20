@@ -7,7 +7,7 @@ package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-@Database(entities = { Repo.class }, version = 1, exportSchema = false)
+@Database(entities = { Repo.class }, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RepoDao repoDao();
 }

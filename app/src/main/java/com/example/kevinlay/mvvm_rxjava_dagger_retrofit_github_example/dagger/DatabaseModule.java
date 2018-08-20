@@ -20,7 +20,7 @@ public class DatabaseModule {
     AppDatabase appDatabase;
 
     public DatabaseModule(Application application) {
-        appDatabase = Room.databaseBuilder(application, AppDatabase.class, "repos").build();
+        appDatabase = Room.databaseBuilder(application, AppDatabase.class, "repos").fallbackToDestructiveMigration().build();
     }
 
     @Provides

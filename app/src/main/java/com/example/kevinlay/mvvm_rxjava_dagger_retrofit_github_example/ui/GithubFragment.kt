@@ -11,11 +11,14 @@ import android.widget.Button
 import android.widget.EditText
 
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.R
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.Repo
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.GithubFragmentViewModel
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.retrofit.GithubRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class GithubFragment: Fragment() {
 
@@ -50,18 +53,24 @@ class GithubFragment: Fragment() {
     }
 
     private fun searchButtonClicked() {
-        val tempDisposable: Disposable = viewModel.getGithubRepos(githubUsernameField.text.toString())
+        val tempDisposable: Disposable = viewModel
+                .getGithubRepos(githubUsernameField.text.toString())
+                .flatMapCompletable { githubRepos ->
+                    val repoList = ArrayList<Repo>()
+
+                    for (githubRepo: GithubRepo in githubRepos) {
+                        val repo = Repo(owner = githubUsernameField.text.toString(), repoName = githubRepo.name)
+                        repoList.add(repo)
+                    }
+
+                    viewModel.addUsersToDatabase(repoList)
+                }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { repos ->
-                    for (repo in repos) {
-                        Log.i(TAG, repo.name)
-                    }
-                },
-                        { error ->
-                            Log.i(TAG, error.toString())
-                        }
-                )
+                .subscribe({ Log.i(TAG, "Added to db") },
+                        { error -> Log.i(TAG, error.toString())
+                })
+
         disposable.add(tempDisposable)
     }
 
