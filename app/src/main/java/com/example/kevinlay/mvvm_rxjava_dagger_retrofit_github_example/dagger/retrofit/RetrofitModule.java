@@ -1,12 +1,10 @@
-package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger;
+package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.retrofit;
 
 import android.content.Context;
 
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.database.RepoDao;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.GithubFragmentViewModelFactory;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -26,15 +24,14 @@ public class RetrofitModule {
         this.context = context;
     }
 
-    // TODO: Should probably move out to its own module
     @Provides
-    @Singleton
+    @RetrofitScope
     public GithubFragmentViewModelFactory provideGithubFragmentViewModelFactory(Retrofit retrofit, RepoDao repoDao) {
         return new GithubFragmentViewModelFactory(retrofit, repoDao);
     }
 
     @Provides
-    @Singleton
+    @RetrofitScope
     public Retrofit provideRetrofit(GsonConverterFactory gsonConverterFactory, RxJava2CallAdapterFactory rxJava2CallAdapterFactory) {
         return new Retrofit.Builder()
                 .addConverterFactory(gsonConverterFactory)
@@ -44,13 +41,13 @@ public class RetrofitModule {
     }
 
     @Provides
-    @Singleton
+    @RetrofitScope
     public GsonConverterFactory provideGsonConverterFactory() {
         return GsonConverterFactory.create();
     }
 
     @Provides
-    @Singleton
+    @RetrofitScope
     public RxJava2CallAdapterFactory provideRxJAva2CallAdapterFactory() {
         return RxJava2CallAdapterFactory.create();
     }

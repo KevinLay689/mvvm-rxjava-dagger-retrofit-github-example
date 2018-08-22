@@ -25,7 +25,7 @@ public class DatabaseModule {
 
     @Provides
     @Singleton
-    public AppDatabase provideAppDatabase2() {
+    public AppDatabase provideAppDatabase() {
         return appDatabase;
     }
 

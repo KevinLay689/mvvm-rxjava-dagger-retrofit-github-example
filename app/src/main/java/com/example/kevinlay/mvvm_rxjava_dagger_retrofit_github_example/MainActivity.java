@@ -5,10 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger
-        .DaggerAppComponent;
-import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.DatabaseModule;
-import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.RetrofitModule;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.retrofit.RetrofitMode;
+import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.retrofit.RetrofitModule;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.GithubFragmentViewModel;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.mvvm.GithubFragmentViewModelFactory;
 import com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.ui.GithubFragment;
@@ -28,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inject Dagger
-        DaggerAppComponent.builder()
-                .databaseModule(new DatabaseModule(getApplication()))
+        // Inject
+        RetrofitMode.getInstance()
+                .retrofitSubcomponent()
                 .retrofitModule(new RetrofitModule(this))
                 .build()
                 .inject(this);

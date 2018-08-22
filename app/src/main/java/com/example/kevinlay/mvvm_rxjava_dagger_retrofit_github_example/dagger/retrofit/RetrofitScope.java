@@ -1,4 +1,4 @@
-package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger;
+package com.example.kevinlay.mvvm_rxjava_dagger_retrofit_github_example.dagger.retrofit;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
